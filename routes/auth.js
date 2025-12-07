@@ -109,7 +109,7 @@ router.post('/login', loginValidation, async (req, res) => {
 
         const { email, username, password } = req.body;
 
-        // Find user by email and username
+        // Find user by email and username (both required)
         const user = await User.findOne({ 
             email,
             username
