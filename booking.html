@@ -548,7 +548,8 @@
     // Display user name
     const userData = JSON.parse(localStorage.getItem('userData') || '{}');
     if (userData.firstName || userData.username) {
-        document.getElementById('userName').innerHTML = `<i class="fas fa-user"></i> ${userData.firstName || userData.username}`;
+        const fullName = userData.firstName && userData.lastName ? `${userData.firstName} ${userData.lastName}` : (userData.username || 'User');
+        document.getElementById('userName').innerHTML = `<i class="fas fa-user"></i> ${fullName}`;
     }
 
     // Logout functionality

@@ -72,7 +72,6 @@
         </div>
     </header>
     <!-- Header End -->
-     <br><br><br>
     <!-- Hero Section Begin -->
     <section class="hero-section set-bg" data-setbg="img/contact-bg.jpg">
         <div class="hero-text">
@@ -307,7 +306,8 @@
             // If no token, still display from localStorage
             const userData = JSON.parse(localStorage.getItem('userData') || '{}');
             if (userData.firstName || userData.username) {
-                document.getElementById('userName').innerHTML = `<i class="fas fa-user"></i> ${userData.firstName || userData.username}`;
+                const fullName = userData.firstName && userData.lastName ? `${userData.firstName} ${userData.lastName}` : (userData.username || 'User');
+                document.getElementById('userName').innerHTML = `<i class="fas fa-user"></i> ${fullName}`;
             }
         }
     };
@@ -341,7 +341,8 @@
                 initializeProfileForm(currentUser);
                 
                 // Update header
-                document.getElementById('userName').innerHTML = `<i class="fas fa-user"></i> ${currentUser.firstName || currentUser.username}`;
+                const fullName = currentUser.firstName && currentUser.lastName ? `${currentUser.firstName} ${currentUser.lastName}` : (currentUser.username || 'User');
+                document.getElementById('userName').innerHTML = `<i class="fas fa-user"></i> ${fullName}`;
             }
         })
         .catch(error => {
@@ -349,7 +350,8 @@
             // Fallback to localStorage data
             const userData = JSON.parse(localStorage.getItem('userData') || '{}');
             if (userData.firstName || userData.username) {
-                document.getElementById('userName').innerHTML = `<i class="fas fa-user"></i> ${userData.firstName || userData.username}`;
+                const fullName = userData.firstName && userData.lastName ? `${userData.firstName} ${userData.lastName}` : (userData.username || 'User');
+                document.getElementById('userName').innerHTML = `<i class="fas fa-user"></i> ${fullName}`;
                 // Use localStorage data for display
                 displayUserProfile(userData);
                 initializeProfileForm(userData);
@@ -477,7 +479,8 @@
                 }));
                 
                 // Update header name
-                document.getElementById('userName').innerHTML = `<i class="fas fa-user"></i> ${currentUser.firstName || currentUser.username}`;
+                const fullName = currentUser.firstName && currentUser.lastName ? `${currentUser.firstName} ${currentUser.lastName}` : (currentUser.username || 'User');
+                document.getElementById('userName').innerHTML = `<i class="fas fa-user"></i> ${fullName}`;
                 
                 setTimeout(() => {
                     document.getElementById('profileView').style.display = 'block';
@@ -502,7 +505,8 @@
     // Display user name from localStorage
     const userData = JSON.parse(localStorage.getItem('userData') || '{}');
     if (userData.firstName || userData.username) {
-        document.getElementById('userName').innerHTML = `<i class="fas fa-user"></i> ${userData.firstName || userData.username}`;
+        const fullName = userData.firstName && userData.lastName ? `${userData.firstName} ${userData.lastName}` : (userData.username || 'User');
+        document.getElementById('userName').innerHTML = `<i class="fas fa-user"></i> ${fullName}`;
     }
 
     // Logout functionality with confirmation
