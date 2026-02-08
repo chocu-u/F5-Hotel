@@ -90,11 +90,27 @@ userSchema.methods.comparePassword = async function(candidatePassword) {
     return await bcrypt.compare(candidatePassword, this.password);
 };
 
-// Remove password from JSON responses
+// Remove sensitive data from JSON responses (PII Protection)
 userSchema.methods.toJSON = function() {
     const user = this.toObject();
     delete user.password;
+    delete user.dateOfBirth;
+    delete user.contactNumber;
+    delete user.__v;
     return user;
+};
+
+userSchema.methods.getSafeProfile = function() {
+    return {
+        id: this._id,
+        username: this.username,
+        firstName: this.firstName,
+        middleName: this.middleName,
+        lastName: this.lastName,
+        email: this.email,
+        isAdmin: this.isAdmin,
+        createdAt: this.createdAt
+    };
 };
 
 module.exports = mongoose.model('User', userSchema);

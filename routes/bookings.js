@@ -47,7 +47,6 @@ const verifyAdminToken = async (req, res, next) => {
     }
 };
 
-// Create new booking
 router.post('/create', bookingValidation, async (req, res) => {
     try {
         const errors = validationResult(req);

@@ -265,47 +265,12 @@
         <div class="copyright-area">
             <div class="container">
                 <div class="copyright-text">
-                    <center>Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | F5 Hotel</center>
+                    <center>Copyright &copy;<span class="copyright-year"></span> All rights reserved | F5 Hotel</center>
                 </div>
             </div>
         </div>
     </footer>
     <!-- Footer Section End -->
-
-    <script>
-    // Check if user is logged in
-    window.onload = function() {
-        const userLoggedIn = sessionStorage.getItem('userLoggedIn');
-        
-        if (!userLoggedIn) {
-            // Redirect to login if not logged in
-            window.location.href = 'login.html';
-        }
-    };
-
-    // Display user name
-    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
-    if (userData.firstName || userData.username) {
-        const fullName = userData.firstName && userData.lastName ? `${userData.firstName} ${userData.lastName}` : (userData.username || 'User');
-        document.getElementById('userName').innerHTML = `<i class="fas fa-user"></i> ${fullName}`;
-    }
-
-    // Logout functionality with confirmation
-    document.getElementById('logoutBtn').addEventListener('click', function(e) {
-        e.preventDefault();
-        
-        // Show confirmation dialog
-        if (confirm('Are you sure you want to logout?')) {
-            // Clear session data
-            sessionStorage.removeItem('userLoggedIn');
-            sessionStorage.removeItem('username');
-            localStorage.clear();
-            
-            // Redirect to login page
-            window.location.href = 'login.html';
-        }
-    });
-    </script>
 
     <!-- Js Plugins -->
     <script src="js/jquery-3.3.1.min.js"></script>
@@ -316,6 +281,9 @@
     <script src="js/jquery.slicknav.js"></script>
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/footer.js"></script>
+    <script src="js/security.js"></script>
+    <script src="js/user-auth.js"></script>
 </body>
 
 </html>

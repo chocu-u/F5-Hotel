@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
 // Middleware to verify admin token
-const verifyAdminToken = async (req, res, next) => {
+    const verifyAdminToken = async (req, res, next) => {
     try {
         const token = req.headers.authorization?.split(' ')[1];
         
@@ -20,7 +20,7 @@ const verifyAdminToken = async (req, res, next) => {
         
         // Check if user is admin
         const user = await User.findById(decoded.userId);
-        if (!user || !user.isAdmin) {
+        if (!user || !user.isAdmin) {   
             return res.status(403).json({ 
                 success: false, 
                 message: 'Access denied. Admin privileges required.' 
@@ -119,14 +119,7 @@ router.post('/signup', signupValidation, async (req, res) => {
             success: true,
             message: 'Account created successfully',
             token,
-            user: {
-                id: user._id,
-                username: user.username,
-                email: user.email,
-                firstName: user.firstName,
-                lastName: user.lastName,
-                contactNumber: user.contactNumber
-            }
+            user: user.getSafeProfile()
         });
     } catch (error) {
         console.error('Signup error:', error);
@@ -189,15 +182,7 @@ router.post('/login', loginValidation, async (req, res) => {
             success: true,
             message: 'Login successful',
             token,
-            user: {
-                id: user._id,
-                username: user.username,
-                email: user.email,
-                firstName: user.firstName,
-                lastName: user.lastName,
-                contactNumber: user.contactNumber,
-                isAdmin: user.isAdmin || false
-            }
+            user: user.getSafeProfile()
         });
     } catch (error) {
         console.error('Login error:', error);
@@ -268,15 +253,7 @@ router.post('/admin-login', loginValidation, async (req, res) => {
             success: true,
             message: 'Admin login successful',
             token,
-            user: {
-                id: user._id,
-                username: user.username,
-                email: user.email,
-                firstName: user.firstName,
-                lastName: user.lastName,
-                contactNumber: user.contactNumber,
-                isAdmin: user.isAdmin
-            }
+            user: user.getSafeProfile()
         });
     } catch (error) {
         console.error('Admin login error:', error);
@@ -312,7 +289,7 @@ router.get('/profile', async (req, res) => {
 
         res.status(200).json({
             success: true,
-            user
+            user: user.getSafeProfile()
         });
     } catch (error) {
         console.error('Profile error:', error);
@@ -400,7 +377,7 @@ router.put('/profile', updateUserValidation, async (req, res) => {
         res.status(200).json({
             success: true,
             message: 'Profile updated successfully',
-            user
+            user: user.getSafeProfile()
         });
     } catch (error) {
         console.error('Error updating profile:', error);
@@ -415,7 +392,7 @@ router.put('/profile', updateUserValidation, async (req, res) => {
 // Get all users (admin only)
 router.get('/users', verifyAdminToken, async (req, res) => {
     try {
-        const users = await User.find().select('-password').sort({ createdAt: -1 });
+        const users = await User.find().select('-password -dateOfBirth -contactNumber').sort({ createdAt: -1 });
         res.status(200).json({
             success: true,
             count: users.length,
@@ -486,7 +463,7 @@ router.put('/users/:id', verifyAdminToken, updateUserValidation, async (req, res
         res.status(200).json({
             success: true,
             message: 'User updated successfully',
-            user
+            user: user.getSafeProfile()
         });
     } catch (error) {
         console.error('Error updating user:', error);
